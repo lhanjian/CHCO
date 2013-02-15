@@ -1,0 +1,55 @@
+/*
+ID: lhjay11
+LANG: C
+TASK: ride
+PROG: ride
+*/
+#include <stdio.h>
+
+unsigned
+pres_num(char *ch)
+{
+    unsigned ans = 1;
+
+    while (*ch != '\0') {
+        ans *= (unsigned) (*ch) - 64;
+        ch++;
+    }
+    ans %= 47;
+
+    return ans;
+}
+
+
+
+
+int
+main()
+{
+    FILE *fin = fopen("ride.in", "r");
+    FILE *fout = fopen("ride.out", "w");
+// 
+    unsigned product_a = 1;
+    unsigned product_b = 1;
+    char str_a[7], str_b[7];
+    fscanf(fin, "%s %s", str_a, str_b);
+//
+    product_a = pres_num(str_a);
+    product_b = pres_num(str_b);
+
+    if (product_a == product_b) {
+        fprintf(fout, "GO\n");
+    } else {
+        fprintf(fout, "STAY\n");
+    }
+
+    
+    
+        
+
+
+
+
+
+    return 0;
+}
