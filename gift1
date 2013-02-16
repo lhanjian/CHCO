@@ -1,0 +1,65 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: gift1
+*/
+#include <stdio.h>
+#include <string.h>
+
+struct person {
+    char name[14];
+    int money;
+};
+int
+main(void)
+{
+    FILE *fin = fopen("gift1.in", "r");
+    FILE *fout = fopen("gift1.out", "w");
+
+    struct person people[11];
+    char giver[14], getter[14];
+    int div_money, div_num, div_averg;
+    unsigned short num;
+    unsigned short i = 0 , j = 0, k = 0;
+
+// read name list 
+    fscanf(fin, "%hu", &num);getc(fin);
+    for(i = 0; i < num; i++) {
+        fscanf(fin, "%s", people[i].name);getc(fin);
+        people[i].money = 0;
+    }
+// read input to operate
+    for (k = 0; k < num; k++) {
+        i = 0;
+        fscanf(fin, "%s", giver);getc(fin);// giver name
+        while (strcmp(giver, people[i].name) != 0) {
+            i++;
+        }
+        fscanf(fin, "%d %d", &div_money, &div_num);getc(fin);//with how many to set aside
+
+        if (div_money == 0 || div_num == 0) {
+            i = 0;
+            continue;
+        }
+
+        people[i].money -= div_money;
+        div_averg = div_money / div_num;
+        people[i].money += div_money % div_num;
+
+        for (i = 0; i < div_num; i++) {//should be accepted
+            j = 0;
+            fscanf(fin, "%s", getter);getc(fin);
+            while (strcmp(getter, people[j].name) != 0) {
+                j++;
+            }
+            people[j].money += div_averg;
+        }
+    }
+    
+//output file
+    for (i = 0; i < num; i++) {
+        fprintf(fout, "%s %d\n", people[i].name, people[i].money);
+    }
+
+    return 0;
+}
