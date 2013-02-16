@@ -44,7 +44,8 @@ main(void)
 
         people[i].money -= div_money;
         div_averg = div_money / div_num;
-
+        people[i].money += div_money % div_num;
+ 
         for (i = 0; i < div_num; i++) {//should be accepted
             j = 0;
             fscanf(fin, "%s", getter);getc(fin);
