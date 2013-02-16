@@ -1,0 +1,74 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: friday
+*/
+
+
+#include <stdio.h>
+//#include <string.h>
+#include <assert.h>
+
+int
+main(void)
+{
+    FILE *fin = fopen("friday.in", "r");
+    FILE *fout = fopen("friday.out", "w");
+//handle input N
+    int year ;
+    int var_year;
+    int jl_val;
+    int var_month = 0;
+    int sun = 0, mon = 0, tue = 0, wed = 0, thu = 0, fri = 0, sat = 0;
+
+    fscanf(fin, "%d", &year);
+    year += 1899;
+
+    for (var_year = 1900; var_year <= year; var_year++) {
+        for (var_month = 3; var_month <= 14; var_month++ ) {
+            if (var_month == 13 && var_month == 14) {
+                var_month -= 12;
+                var_year -= 1;
+                
+                jl_val = ((var_year%100 
+                            + var_year%100/4 
+                            + (var_year/100)/4 
+                            - (2*(var_year/100))
+                            + ((26*(var_month+1))/10)
+                            + 13 - 1)%7);
+                jl_val = (jl_val%7 + 7)%7;
+
+                var_month += 12;
+                var_year += 1;
+            } else {
+                jl_val = ((var_year%100 
+                            + var_year%100/4 
+                            + (var_year/100)/4 
+                            - (2*(var_year/100))
+                            + ((26*(var_month+1))/10)
+                            + 13 - 1)%7);
+                jl_val = (jl_val%7 + 7)%7;
+            }
+
+            switch (jl_val) {
+            case 0: sun++; break;
+            case 1: mon++; break;
+            case 2: tue++; break;
+            case 3: wed++; break;
+            case 4: thu++; break;
+            case 5: fri++; break;
+            case 6: sat++; break;
+            }
+        }
+    }
+
+
+    
+
+
+    fprintf(fout, "%d %d %d %d %d %d %d ", sat, sun, mon, tue, wed, thu, fri);
+    fclose(fin);
+    fclose(fout);
+    return 0;
+
+}
