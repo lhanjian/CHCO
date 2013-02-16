@@ -15,7 +15,7 @@ main(void)
     FILE *fin = fopen("friday.in", "r");
     FILE *fout = fopen("friday.out", "w");
 //handle input N
-    int year ;
+    int year;
     int var_year;
     int jl_val;
     int var_month = 0;
@@ -26,19 +26,15 @@ main(void)
 
     for (var_year = 1900; var_year <= year; var_year++) {
         for (var_month = 3; var_month <= 14; var_month++ ) {
-            if (var_month == 13 && var_month == 14) {
-                var_month -= 12;
+            if (var_month == 13 || var_month == 14) {
                 var_year -= 1;
-                
                 jl_val = ((var_year%100 
                             + var_year%100/4 
                             + (var_year/100)/4 
                             - (2*(var_year/100))
                             + ((26*(var_month+1))/10)
                             + 13 - 1)%7);
-                jl_val = (jl_val%7 + 7)%7;
-
-                var_month += 12;
+                jl_val = ((jl_val%7) + 7)%7;
                 var_year += 1;
             } else {
                 jl_val = ((var_year%100 
@@ -47,7 +43,7 @@ main(void)
                             - (2*(var_year/100))
                             + ((26*(var_month+1))/10)
                             + 13 - 1)%7);
-                jl_val = (jl_val%7 + 7)%7;
+                jl_val = ((jl_val%7) + 7)%7;
             }
 
             switch (jl_val) {
@@ -66,7 +62,7 @@ main(void)
     
 
 
-    fprintf(fout, "%d %d %d %d %d %d %d ", sat, sun, mon, tue, wed, thu, fri);
+    fprintf(fout, "%d %d %d %d %d %d %d\n", sat, sun, mon, tue, wed, thu, fri);
     fclose(fin);
     fclose(fout);
     return 0;
