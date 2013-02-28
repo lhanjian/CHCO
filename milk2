@@ -1,0 +1,54 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: milk2
+*/
+#include <stdio.h>
+#include <string.h>
+int
+main(void)
+{
+    FILE *fin = fopen("milk2.in", "r");
+    FILE *fout = fopen("milk2.out", "w");
+
+    //int time[5000][2]
+    int time[2];
+    int num_farm, i, j;
+    char line[1000000];
+    char now;
+    int max = 1000000;
+    int min = 0;
+    int idle = 0, continous = 0;
+    int max_idle = 0, max_cont = 0;
+
+    memset(line, 'n', 1000000);
+    fscanf(fin,"%d", &num_farm);
+    for (i = 0; i < num_farm; i++) {
+        fscanf(fin, "%d %d", time[0], time[1]);
+        line[time[0]] = 'y';
+        line[time[1]] = 'y';
+
+        if (time[0] < min)
+            min = time[0];
+        if (time[1] > max)
+            max = time[1];
+    } 
+
+    for (j = min, now = line[min], idle = 0; j <= max; j++) {
+       if (now != line[j]) {
+           if (idle < max_idle)
+               max_idle = idle;
+           if (continous < max_cont)
+               min_cont = continous;
+       } else {
+           if (now == 'y')
+               continous++;
+           if (now == 'n' )
+               idle++;
+       }
+    }
+
+    fprinf(fout, "%d %d\n", max_cont, max_idle);
+    fclose(fin);fclose(fout);
+    return 0;
+}
