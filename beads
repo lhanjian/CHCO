@@ -1,0 +1,70 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: beads
+*/
+#include <stdio.h>
+#include <string.h>
+
+int
+mod(int dividend, int divisor)
+{
+    int remainder;
+    if (dividend < 0) {
+        dividend += divisor;
+    }
+    remainder = dividend % divisor;
+    return remainder;
+}
+
+int
+breakpt(int pt, int drkt, int len, char necklace[])
+{
+    int color = 'w';
+    int i, n;
+
+    (drkt > 0)?(i = pt):(i = mod(pt - 1, len));
+    
+    for (n = 0; n < len; n++, i=mod(i + drkt, len)) {
+        if (color == 'w' && necklace[i] != 'w') {
+            color = necklace[i];
+        }
+        if (color != 'w' && necklace[i] != 'w' && necklace[i] != color) {
+            break;
+        }
+    }
+
+    return n;
+}
+
+int
+main(void)
+{
+    FILE *fin = fopen("beads.in", "r");
+    FILE *fout = fopen("beads.out", "w");
+
+    int num_beads, answer, i, n;
+    char input[400];
+//handle input
+    fscanf(fin, "%d", &num_beads);
+    fscanf(fin, "%s", input);
+//calculate num
+        
+    answer = 0;
+    for (i = 0; i <= num_beads; i++) {
+        n = breakpt(i, 1, num_beads, input) + breakpt(i , -1, num_beads, input);
+        if (n > answer) {
+            answer = n;
+        }
+    }
+
+
+    if (answer > num_beads) {
+        answer = num_beads;
+    }
+
+//handle output
+    fprintf(fout, "%d\n", answer);
+    fclose(fin);fclose(fout);
+    return 0;
+}
