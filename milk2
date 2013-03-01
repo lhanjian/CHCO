@@ -12,43 +12,61 @@ main(void)
     FILE *fout = fopen("milk2.out", "w");
 
     //int time[5000][2]
-    int time[2];
+    int head, tail;
     int num_farm, i, j;
     char line[1000000];
     char now;
-    int max = 1000000;
-    int min = 0;
+    int max = 0;
+    int min = 1000000;
     int idle = 0, continous = 0;
     int max_idle = 0, max_cont = 0;
 
     memset(line, 'n', 1000000);
     fscanf(fin,"%d", &num_farm);
     for (i = 0; i < num_farm; i++) {
-        fscanf(fin, "%d %d", time[0], time[1]);
-        line[time[0]] = 'y';
-        line[time[1]] = 'y';
+        fscanf(fin, "%d %d", &head, &tail);
 
-        if (time[0] < min)
-            min = time[0];
-        if (time[1] > max)
-            max = time[1];
+        if (head < min)
+            min = head;
+        if (tail > max)
+            max = tail;
+        memset(line + head, 'y', tail - head);
     } 
+    
+    for (j = min, continous = 1, idle = 0; j < max; j++) {
+        now = line[j];
+        if (now != line[j+1]) {
+            if (now == 'n') {
+                if (idle > max_idle) {
+                    max_idle = idle;
+                }
+                idle = 0;
+            } else {
+                if (continous > max_cont) {
+                    max_cont = continous;
+                }
+                continous = 1;
+                if (j+1 < max)
+                    idle = 1;
+            }
 
-    for (j = min, now = line[min], idle = 0; j <= max; j++) {
-       if (now != line[j]) {
-           if (idle < max_idle)
-               max_idle = idle;
-           if (continous < max_cont)
-               min_cont = continous;
-       } else {
-           if (now == 'y')
-               continous++;
-           if (now == 'n' )
-               idle++;
-       }
+        } else {
+            if (now == 'y')
+                continous++;
+            if (now == 'n')
+                idle++;
+        }
     }
 
-    fprinf(fout, "%d %d\n", max_cont, max_idle);
+
+
+
+    if (idle > max_idle)
+       max_idle = idle;
+    if (continous > max_cont)
+       max_cont = continous;
+
+    fprintf(fout, "%d %d\n", max_cont, max_idle);
     fclose(fin);fclose(fout);
     return 0;
 }
