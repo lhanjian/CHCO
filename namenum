@@ -1,0 +1,201 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: namenum
+*/
+#include <stdio.h>
+#include <string.h>
+
+char *
+calc(char *dict, char *cmp) {
+    int count = 0;
+    int cmp_count = 0;
+    for (count = 0; *(dict+count) != '\0'; count++) {
+        switch(*(dict+count)) {
+            case 'A':
+            case 'B':
+            case 'C':
+                cmp[cmp_count] = '2';cmp_count++;break;
+            case 'D':
+            case 'E':
+            case 'F':
+                cmp[cmp_count] = '3';cmp_count++;break;
+            case 'G':
+            case 'H':
+            case 'I':
+                cmp[cmp_count] = '4';cmp_count++;break;
+            case 'J':
+            case 'K':
+            case 'L':
+                cmp[cmp_count] = '5';cmp_count++;break;
+            case 'M':
+            case 'N':
+            case 'O':
+                cmp[cmp_count] = '6';cmp_count++;break;
+            case 'P':
+            case 'R':
+            case 'S':
+                cmp[cmp_count] = '7';cmp_count++;break;
+            case 'T':
+            case 'U':
+            case 'V':
+                cmp[cmp_count] = '8';cmp_count++;break;
+            case 'W':
+            case 'X':
+            case 'Y':
+                cmp[cmp_count] = '9';cmp_count++;break;
+
+        }
+    }
+    cmp[cmp_count] = '\0';
+    return cmp;
+}
+
+
+int
+main(void)
+{
+    FILE *fin = fopen("namenum.in", "r");
+    FILE *fout = fopen("namenum.out", "w");
+    FILE *dict = fopen("dict.txt", "r");
+
+    char dict_12[5000][13];int count_12 = 0;
+    char dict_11[5000][12];int count_11 = 0;
+    char dict_10[5000][11];int count_10 = 0;
+    char dict_09[5000][10];int count_09 = 0;
+    char dict_08[5000][9]; int count_08 = 0;
+    char dict_07[5000][8]; int count_07 = 0;
+    char dict_06[5000][7]; int count_06 = 0;
+    char dict_05[5000][6]; int count_05 = 0;
+    char dict_04[5000][5]; int count_04 = 0;
+    char dict_03[5000][4]; int count_03 = 0;
+    char dict_02[5000][3]; int count_02 = 0;
+    char dict_01[5000][2]; int count_01 = 0;
+    char handle[50];
+    char input[14];
+    char cmp[14];
+    int count = 0;
+    int stat = 0;
+    while (fscanf(dict, "%s", handle) != EOF) {
+        switch(strlen(handle)) {
+            case 1:strcpy(dict_01[count_01++], handle);break;
+            case 2:strcpy(dict_02[count_02++], handle);break;
+            case 3:strcpy(dict_03[count_03++], handle);break;
+            case 4:strcpy(dict_04[count_04++], handle);break;
+            case 5:strcpy(dict_05[count_05++], handle);break;
+            case 6:strcpy(dict_06[count_06++], handle);break;
+            case 7:strcpy(dict_07[count_07++], handle);break;
+            case 8:strcpy(dict_08[count_08++], handle);break;
+            case 9:strcpy(dict_09[count_09++], handle);break;
+            case 10:strcpy(dict_10[count_10++], handle);break;
+            case 11:strcpy(dict_11[count_11++], handle);break;
+            case 12:strcpy(dict_12[count_12++], handle);break;
+        }
+    }
+
+    fscanf(fin, "%s", input);
+    switch(strlen(input)) {
+        case 1:
+            for (count = 0; count < count_01; count++) {
+                if(strcmp(input, calc(dict_01[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_01[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 2:
+            for (count = 0; count < count_02; count++) {
+                if(strcmp(input, calc(dict_02[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_02[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 3:
+            for (count = 0; count < count_03; count++) {
+                if(strcmp(input, calc(dict_03[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_03[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 4:
+            for (count = 0; count < count_04; count++) {
+                if(strcmp(input, calc(dict_04[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_04[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 5:
+            for (count = 0; count < count_05; count++) {
+                if(strcmp(input, calc(dict_05[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_05[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 6:
+            for (count = 0; count < count_06; count++) {
+                if(strcmp(input, calc(dict_06[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_06[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 7:
+            for (count = 0; count < count_07; count++) {
+                if(strcmp(input, calc(dict_07[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_07[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 8:
+            for (count = 0; count < count_08; count++) {
+                if(strcmp(input, calc(dict_08[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_08[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 9:
+            for (count = 0; count < count_09; count++) {
+                if(strcmp(input, calc(dict_09[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_09[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 10:
+            for (count = 0; count < count_10; count++) {
+                if(strcmp(input, calc(dict_10[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_10[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 11:
+            for (count = 0; count < count_11; count++) {
+                if(strcmp(input, calc(dict_11[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_11[count]);
+                    stat = 1;
+                }
+            }
+            break;
+        case 12:
+            for (count = 0; count < count_12; count++) {
+                if(strcmp(input, calc(dict_12[count], cmp)) == 0) {
+                    fprintf(fout, "%s\n", dict_12[count]);
+                    stat = 1;
+                }
+            }
+            break;
+    }
+    if (stat == 0) {
+        fprintf(fout, "NONE\n");
+    }
+
+    fclose(fin);fclose(fout);
+    return 0;
+}
