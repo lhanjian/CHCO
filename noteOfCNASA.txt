@@ -1,0 +1,108 @@
+One thing that is common to all networks is that we need to have a way
+to identify the end nodes. Such identifiers are usually called addresses
+the 48-bit address used for Ethernet.no two nodes on a network have the same address.globally unique identifier.
+there is some way to identify the input and output ports of each switch.
+at least two sensible ways to identify ports: One is to number each port, and the other is to identify the port by the name of the node (switch or host) to which it leads. For now, we use numbering of the ports.
+
+
+Datagram
+
+To decide how to forward a packet, a switch consults a forwarding table.
+
+Datagram networks have the following characteristics:
+
+A host can send a packet anywhere at any time, since any packet
+that turns up at a switch can be immediately forwarded (assuming
+a correctly populated forwarding table). 
+
+When a host sends a packet, it has no way of knowing if the
+network is capable of delivering it or if the destination host is even
+up and running.
+
+A switch or link failure might not have any serious effect on
+communication if it is possible to find an alternate route around
+the failure and to update the forwarding table accordingly.
+
+
+
+
+
+Virtual Circuit Switching
+
+The first stage is “connection setup.” 
+The second is data transfer.
+
+The semantics of one such entry is as follows: If a packet arrives on the
+designated incoming interface and that packet contains the designated
+VCI value in its header, then that packet should be sent out the specified
+outgoing interface with the specified outgoing VCI value having been first
+placed in its header.
+
+the VCI is not a globally significant identifier for the connection; rather, it has significance only on a given link (i.e., it has link-local scope).
+
+When host A no longer wants to send data to host B, it tears down
+the connection by sending a teardown message to switch 1.
+
+
+There are several things to note about virtual circuit switching:
+Since host A has to wait for the connection request to reach the far
+side of the network and return before it can send its first data
+packet, there is at least one round-trip time (RTT) of delay before
+data is sent.3
+
+While the connection request contains the full address for host B
+(which might be quite large, being a global identifier on the
+network), each data packet contains only a small identifier, which
+is only unique on one link. Thus, the per-packet overhead caused
+by the header is reduced relative to the datagram model.
+
+While the connection request contains the full address for host B
+(which might be quite large, being a global identifier on the
+network), each data packet contains only a small identifier, which
+is only unique on one link. Thus, the per-packet overhead caused
+by the header is reduced relative to the datagram model.
+
+While the connection request contains the full address for host B
+(which might be quite large, being a global identifier on the
+network), each data packet contains only a small identifier, which
+is only unique on one link. Thus, the per-packet overhead caused
+by the header is reduced relative to the datagram model.
+
+
+
+In doing these three things, each node is ensured of having the buffers it
+needs to queue the packets that arrive on that circuit. This basic strategy
+is usually called hop-by-hop flow control.
+
+Qos implies that switches set aside the resources they need to meet this 
+guarantee
+
+
+
+If the cell payload size is 48 bytes and you want to send 1 byte, you’ll need to send 47 bytes of padding
+
+Source routing
+//
+
+Rotation has an advantage over stripping, however: Host B gets a copy of the complete header, which may help it figure out how to get back to host A.
+
+
+
+use small, fixed-length packets
+
+
+Spanning Tree Algorithm
+The main idea of the spanning tree is for the bridges to select the ports
+over which they will forward frames.
+
+how this election takes place is described below
+The root bridge always forwards frames out over all of its ports. 
+Next, each bridge computes the shortest path to the root and notes which of its ports is on this path
+Finally, all the bridges connected to a given LAN elect a single designated bridge that will be responsible for forwarding frames toward the root bridge.
+
+Specifically, the configuration messages contain three pieces of infor-
+mation:
+1. The ID for the bridge that is sending the message
+2. The ID for what the sending bridge believes to be the root bridge
+3. The distance, measured in hops, from the sending bridge to the
+root bridge
