@@ -1,0 +1,78 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: palsquare
+*/
+#include <stdio.h>
+#include <string.h>
+
+int
+main(void)
+{
+    FILE *fin = fopen("palsquare.in", "r");
+    FILE *fout = fopen("palsquare.out", "w");
+
+    int base, i, j = 0, m, stat = 1;
+    int remainder;
+    int pos = 0, len = 0;
+    int k;
+    char c[20]="0123456789ABCDEFGHIJ";
+    char basestr[200];
+    char doublestr[200];
+
+    fscanf(fin, "%d", &base);
+
+    for (j = 0, i = 1; i <= 300; i++) {
+        stat = 1;
+        for (m = i, j = 0; m != 0; j++) {
+            remainder = m % base;
+            sprintf(basestr+j, "%c", c[remainder]);
+            m /= base;
+        }
+        
+        sprintf(basestr+j, "%c", '\0');
+        for (m = (i*i), j = 0; m != 0; j++) {
+            remainder = m % base;
+            sprintf(doublestr+j, "%c", c[remainder]);
+            m /= base;
+        }
+        sprintf(basestr+j, "%c", '\0');
+
+        len = strlen(doublestr);
+        len--;
+        for (pos = 0; pos <= (len-pos); pos++) {
+            if (doublestr[pos] != doublestr[len-pos]) {
+                stat = 0;
+                break;
+            }
+        }
+
+        if (stat == 0)
+            continue;
+
+        k = strlen(basestr);
+        k--;
+        for ( ; k >= 0; k--)
+            fprintf(fout, "%c", basestr[k]);
+                
+
+        fprintf(fout, " %s\n", doublestr);
+    }
+    fclose(fin);fclose(fout);
+    return 0;
+}
+        
+
+
+             
+
+
+
+
+
+
+
+
+
+    
+
