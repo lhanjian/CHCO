@@ -1,0 +1,83 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: dualpal
+*/
+#include <stdio.h>
+#include <string.h>
+
+
+int
+main(void)
+{
+    FILE *fin = fopen("dualpal.in", "r");
+    FILE *fout = fopen("dualpal.out", "w");
+
+    size_t len, pos, inverse;
+    int i = 0, m = 0, j = 0;
+    int k = 0;
+    int review = 0;
+    int stat = 1;
+
+    char alpha[] = "0123456789ABCDEFGHIJK";
+    char word[50];
+    char backup[50];
+    int N = 0, S = 0, base = 0;
+    int now;
+
+    fscanf(fin, "%d %d", &N, &S);
+    for (review = 0, stat = 1; N > 0; S++) {
+        now = S + 1;
+        for (base = 2; base <= 10; base++) {
+            for (m = 0, i = 0, j = now; j != 0; i++) {
+                m = j % base;
+                j /= base;
+                sprintf(word+i, "%c", alpha[m]);
+            }
+            sprintf(word+i, "%c", '\0');
+            len = strlen(word);
+            strcpy(backup, word);
+            for (k = 0; k < (int)(len); k++)
+                word[k] = backup[len-k-1];
+
+            for (pos = 0, inverse = len-pos-1; pos <= inverse; 
+                    pos++, inverse--) {
+                if (word[pos] != word[inverse]) {
+                    stat = 0;
+                }
+                if (inverse == 0)
+                    break;
+            }
+            if (stat == 1) {
+                review++;
+            }
+            stat = 1;
+        }
+
+        if (review >= 2) {
+            fprintf(fout, "%d\n", now);
+            N--;
+        }
+        review = 0;
+    }
+
+
+
+    fclose(fin);fclose(fout);
+    return 0;
+}
+        
+
+
+             
+
+
+
+
+
+
+
+
+
+    
+
