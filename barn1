@@ -1,0 +1,67 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: barn1
+*/
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#define MAX 301
+
+int cmp(const void *forward, const void *back)
+{
+    return *(int *)forward - *(int *)back;
+}
+        
+
+
+int
+main(void)
+{
+    FILE *fin = fopen("barn1.in", "r");
+    FILE *fout = fopen("barn1.out", "w");
+
+    int max_bound;
+    int stall;
+    int cow;
+    int a[1000], b[1000];
+    int temp;
+
+    int i = 0, j = 0;
+
+    memset(a, 0, MAX);
+    memset(b, 0, MAX);
+
+    fscanf(fin, "%d%d%d", &max_bound, &stall, &cow);
+
+    temp = stall;
+
+    for (i = 0; i < cow; i++) {
+        fscanf(fin, "%d", &a[i]);
+    }
+
+    qsort(a, cow, sizeof(int), cmp);
+
+    stall -= (a[0] - 1);
+    
+    for (i = 1; i < cow; i++) {
+        b[j++] = a[i] - a[i-1] - 1;
+    }
+    stall -= (temp - a[cow-1]);
+
+    qsort(b, j, sizeof(int), cmp);
+    
+    if (max_bound >= cow) {
+        fprintf(fout, "%d\n", cow);
+        return 0;
+    }
+
+    for (i = 0; i < max_bound; i++) {
+        stall -= b[j-i];
+    }
+
+    fprintf(fout, "%d\n", stall);
+
+    fclose(fin);fclose(fout);
+    return 0;
+}
