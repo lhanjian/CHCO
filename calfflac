@@ -1,0 +1,135 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: calfflac
+*/
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+#define N 62110
+#define _min(x,y) ((x)<(y)?(x):(y))
+
+int n, p[N];
+char s[N], str[N];
+int map[N];
+int map_count = 0;
+int map_count2 = 0;
+
+
+void
+kp()
+{
+    int i, mx = 0, id;
+    n = strlen(str);
+    for (i = 1; i < n; i++) {
+        if (mx > i) {
+            p[i] = _min(p[2*id-i], p[id]+id-i);
+        } else {
+            p[i] = 1;
+        }
+        for ( ; str[i+p[i]] == str[i-p[i]]; p[i]++)
+            ;
+        if (p[i] + i > mx) {
+            mx = p[i] + i;
+            id = i;
+        }
+    }
+}
+
+void
+init()
+{
+    int i, ii, j, k, t, stat = 1;
+    str[0] = '$';
+    str[1] = '#';
+
+    n = strlen(s);
+    for (i = 0, ii = 0; i < n; i++, ii++) {
+        while (!isalpha(s[ii])) {
+            if (ii > n) {
+                stat = 0;
+                break;
+            }
+            ii++;
+        }
+        if (stat == 0)
+            break;
+        str[i*2+2] = s[ii];
+        map[i*2+2] = ii;
+        str[i*2+3] = '#';
+    }
+    n = n*2 + 2;
+    s[n] = 0;
+    t = strlen(str);
+    for (i = 0; i < t; i++) {
+        if (isupper(str[i])) {
+            str[i] += 32;
+        }
+    }
+}
+
+int
+main(void)
+{
+    FILE *fin = fopen("calfflac.in", "r");
+    FILE *fout = fopen("calfflac.out", "w");
+
+    int i, ans, count;
+    char c;
+    int j = 0;
+    int leng_alp = 0;
+    int half = 0;
+    int seq = 0;
+    int temp = 0;
+    int temp2 = 0;
+    int len = 0;
+
+    while ((c = getc(fin)) != EOF) {
+        s[j] = c;
+        j++;
+    }
+    s[j] = '\0';
+
+
+    init();
+    kp();
+
+    ans = 0;
+    for (i = 0; i < n; i++) {
+        if (p[i] > ans) {
+            ans = p[i];
+            count = i;
+        }
+    }
+
+    while (len != ans/2) {
+        if (isalpha(str[count+temp2])) {
+            len++;
+        }
+        temp2--;
+    }
+    printf("count:%d\ntemp2:%d\nlen:%d\nans:%d\n",count, temp2,len,ans);
+    
+    temp2++;
+    map_count = map[count+temp2];
+
+    printf("mapcount%d\n", map_count);
+    fprintf(fout, "%d\n", ans-1);
+    half = ans / 2;
+
+    while (leng_alp != ans-1) {
+        if (isalpha(s[map_count+temp])) {
+            leng_alp++;
+        }
+        fputc(s[map_count+temp], fout);
+        fputc(s[map_count+temp], stdout);
+        temp++;
+    }
+
+
+
+    fputc('\n', fout);
+    fclose(fin);fclose(fout);
+    return 0;
+}
