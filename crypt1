@@ -1,0 +1,104 @@
+/*
+ID: lhjay11
+LANG: C
+PROG: crypt1
+*/
+#include <stdio.h>
+int N;
+int digits[100];
+
+int
+foreachBelong(int product, int *sets)
+{
+    int remainder; 
+    int quotient = product;
+    int i, stat = 0;
+
+    while (quotient) {
+        remainder = quotient%10;
+        quotient /= 10;
+        //remainder belong to sets
+        for (i = 0; i < N; i++) {
+            if (remainder == sets[i]) {
+                stat = 1;
+                break;
+            }
+        }
+        if (stat == 1) {
+            stat = 0;
+            continue;
+        }
+        return 0;
+    }
+
+    return 1;
+}
+
+int
+crypt(int cant, int erFst, int erSec)
+{
+    int partialA, partialB, product;
+
+    partialA = cant * erSec;
+    partialB = cant * erFst;
+
+    if (partialA < 1000 && partialA >= 100) {
+        if (!foreachBelong(partialA, digits)) {
+            return 0;
+        }
+    } else {
+        return 0;
+    }
+    
+    if (partialB < 1000 && partialB >= 100) {
+        if (!foreachBelong(partialB, digits)) {
+            return 0;
+        }
+    } else {
+        return 0;
+    }
+
+    product = partialB * 10 + partialA;
+    if (product >= 1000  && product < 10000) {
+        if (!foreachBelong(product, digits)) {
+            return 0;
+        }
+    } else {
+        return 0;
+    }
+
+    return 1;
+}
+
+int
+main(void)
+{
+    freopen("crypt1.in", "r", stdin);
+    freopen("crypt1.out", "w", stdout);
+
+    int i, j, k, l, m/*, n*/;
+    int top_number, total;
+
+    scanf("%d", &N);
+    for (i = 0; i < N; i++) {
+        scanf("%d", &digits[i]);
+    }
+    total = 0;
+
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            for (k = 0; k < N; k++) {
+                for (l = 0; l < N; l++) {
+                    for (m = 0; m < N; m++) {
+                        top_number = digits[i]*100 + digits[j]*10 + digits[k];
+                        total += crypt(top_number, digits[l], digits[m]);
+                    }
+                }
+            }
+        }
+    }
+
+    printf("%d\n", total);
+
+    return 0;
+}
